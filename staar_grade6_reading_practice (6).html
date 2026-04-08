@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6th Grade STAAR Reading & Language Arts Practice Test</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Georgia,serif;background:#f5f5f0;color:#1a1a1a;min-height:100vh}
+  a{color:#1a5fa8}
+  .page{max-width:960px;margin:0 auto;padding:2rem 1.25rem 4rem}
+  .site-header{background:#1a3a6b;color:#fff;padding:0.75rem 1.25rem;text-align:center;font-size:13px;letter-spacing:.5px}
+  .test-header{border:3px solid #1a1a1a;padding:1.25rem;margin-bottom:1.5rem;text-align:center;background:#fff}
+  .test-header h1{font-size:20px;font-weight:700;letter-spacing:.5px;margin-bottom:4px}
+  .test-header p{font-size:13px;color:#555}
+  .badge-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+  .badge{font-size:11px;padding:3px 10px;border-radius:3px;font-family:Arial,sans-serif;font-weight:600;letter-spacing:.3px}
+  .badge-blue{background:#ddeeff;color:#1a3a6b;border:1px solid #b0ccee}
+  .badge-green{background:#dff2e8;color:#0a4a22;border:1px solid #a0d4b4}
+  .badge-red{background:#fdecea;color:#8b1a1a;border:1px solid #f0b0a8}
+  .dir-box{border:1px solid #bbb;padding:.75rem 1.1rem;margin-bottom:1.5rem;font-size:14px;color:#444;background:#fffef7;border-left:4px solid #1a3a6b;font-family:Arial,sans-serif}
+  .dir-box strong{color:#1a1a1a}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
+  .stat-box{background:#fff;border:1px solid #ddd;border-radius:4px;padding:.75rem;text-align:center}
+  .stat-n{font-size:24px;font-weight:700;color:#1a3a6b;font-family:Arial,sans-serif}
+  .stat-l{font-size:11px;color:#888;margin-top:2px;font-family:Arial,sans-serif;text-transform:uppercase;letter-spacing:.4px}
+  .prog-wrap{height:8px;background:#e0e0e0;border-radius:4px;margin-bottom:1.5rem;border:1px solid #ccc}
+  .prog-bar{height:100%;background:#1a5fa8;border-radius:4px;width:0%;transition:width .4s}
+  .section{margin-bottom:2.5rem}
+  .sec-label{font-family:Arial,sans-serif;font-size:12px;font-weight:700;color:#1a3a6b;text-transform:uppercase;letter-spacing:.8px;border-bottom:2px solid #1a3a6b;padding-bottom:5px;margin-bottom:1rem}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:start}
+  @media(max-width:680px){.two-col{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}}
+  .passage-box{border:1px solid #ccc;padding:1rem 1.1rem;border-radius:4px;background:#fff;border-top:4px solid #1a3a6b}
+  .p-tag{display:inline-block;font-size:10px;font-weight:700;font-family:Arial,sans-serif;background:#ddeeff;color:#1a3a6b;border-radius:3px;padding:2px 8px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+  .p-title{font-size:15px;font-weight:700;text-align:center;color:#1a1a1a;margin-bottom:.75rem;border-bottom:1px solid #e0e0e0;padding-bottom:.5rem}
+  .p-text{font-size:13.5px;line-height:1.9;color:#1a1a1a}
+  .p-text p{margin-bottom:.55rem}
+  .lnum{color:#aaa;font-size:10px;margin-right:5px;user-select:none;font-family:Arial,sans-serif}
+  .poem-line{display:block;margin-bottom:1px}
+  .q-col{display:flex;flex-direction:column;gap:1rem}
+  .q-block{border:1px solid #ddd;border-radius:4px;padding:.9rem 1rem;background:#fff}
+  .q-block.correct{border-color:#2a8a4a;background:#edfaf2;border-left:4px solid #2a8a4a}
+  .q-block.incorrect{border-color:#c0392b;background:#fdf0ee;border-left:4px solid #c0392b}
+  .q-num{font-size:11px;font-weight:700;font-family:Arial,sans-serif;color:#888;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+  .q-text{font-size:14px;color:#1a1a1a;line-height:1.6;margin-bottom:.7rem}
+  .choice{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:13.5px;color:#1a1a1a;line-height:1.5;border:1px solid transparent;margin-bottom:4px;transition:background .1s;font-family:Arial,sans-serif}
+  .choice:hover{background:#f0f4ff}
+  .choice input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:#1a5fa8}
+  .choice.sel-correct{background:#dff2e8;border-color:#2a8a4a;color:#0a3a1a}
+  .choice.sel-wrong{background:#fdecea;border-color:#c0392b;color:#5a0a0a}
+  .choice.show-correct{background:#dff2e8;border-color:#2a8a4a;color:#0a3a1a}
+  .feedback{font-size:12.5px;margin-top:7px;padding:6px 10px;border-radius:4px;display:none;font-family:Arial,sans-serif;line-height:1.5}
+  .feedback.ok{background:#b8e8cc;color:#0a3a1a}
+  .feedback.bad{background:#f5c6c0;color:#5a0a0a}
+  .submit-area{text-align:center;margin-top:2rem}
+  .sub-btn{padding:12px 40px;font-size:15px;font-weight:700;font-family:Arial,sans-serif;border-radius:4px;border:2px solid #1a3a6b;background:#1a3a6b;color:#fff;cursor:pointer;letter-spacing:.3px;transition:background .15s}
+  .sub-btn:hover{background:#15306b}
+  .score-banner{margin-top:1.5rem;padding:1.1rem 1.5rem;border-radius:4px;text-align:center;font-size:16px;font-weight:700;font-family:Arial,sans-serif;border:2px solid}
+  .score-banner.pass{background:#dff2e8;color:#0a3a1a;border-color:#2a8a4a}
+  .score-banner.fail{background:#fff3cd;color:#7a4a00;border-color:#f0a020}
+  .score-banner p{font-size:13px;font-weight:400;margin-top:5px}
+  .footer{text-align:center;font-size:12px;color:#888;font-family:Arial,sans-serif;margin-top:3rem;padding-top:1.5rem;border-top:1px solid #ddd}
+</style>
+</head>
+<body>
+
+<div class="site-header">6th Grade STAAR Reading & Language Arts &mdash; Practice Test &mdash; Free Study Resource</div>
+
+<div class="page">
+
+<div class="test-header">
+  <h1>STAAR Practice Test &mdash; Grade 6 Reading &amp; Language Arts</h1>
+  <p>Texas Essential Knowledge and Skills (TEKS) Aligned &nbsp;&bull;&nbsp; Practice Edition &nbsp;&bull;&nbsp; Not an official TEA product</p>
+  <div class="badge-row">
+    <span class="badge badge-blue">50 Questions</span>
+    <span class="badge badge-blue">5 Passages</span>
+    <span class="badge badge-green">Instant Scoring &amp; Feedback</span>
+    <span class="badge badge-red">Free Practice Resource</span>
+  </div>
+</div>
+
+<div class="dir-box"><strong>Directions:</strong> Read each selection carefully. Then answer the questions that follow. Choose the best answer for each question. When you have answered all 50 questions, click <strong>Submit Answers</strong> to see your score and detailed explanations for every question.</div>
+
+<div class="prog-wrap"><div class="prog-bar" id="prog"></div></div>
+
+<div class="stats-row">
+  <div class="stat-box"><div class="stat-n" id="s-ans">0</div><div class="stat-l">Answered</div></div>
+  <div class="stat-box"><div class="stat-n" id="s-left">50</div><div class="stat-l">Remaining</div></div>
+  <div class="stat-box"><div class="stat-n">50</div><div class="stat-l">Total Questions</div></div>
+</div>
+
+<div id="test-body"></div>
+
+<div class="submit-area">
+  <button class="sub-btn" id="subBtn" onclick="submitTest()">Submit Answers</button>
+  <div id="score-area"></div>
+</div>
+
+<div class="footer">
+  This is a free, unofficial STAAR practice resource created to help 6th grade students prepare.<br>
+  Not affiliated with the Texas Education Agency (TEA) or any school district.<br>
+  Share freely with students, parents, and teachers!
+</div>
+
+</div>
+
+<script>
+const passages=[
+{id:"p1",label:"Selection 1",tag:"Literary Fiction",title:"The Secret of the Salt Marshes",
+text:["Maya had walked the edges of the salt marsh every summer for as long as she could remember. The twisted cordgrass rose taller than her waist now, and the mud beneath her boots made that familiar sucking sound with every step.","\"Careful,\" her grandmother called from the wooden dock. \"The tide's coming in faster today.\"","Maya glanced back and nodded. But she wasn't watching for the tide. She was watching the great blue heron that stood motionless at the water's edge, its long neck curved like a question mark.","For three summers, she had tried to photograph that heron. Every time she raised her camera, it lifted off the water on enormous gray wings and vanished into the spartina grass. It was as if the bird knew.","Today she moved differently. She slowed her breathing. She stopped thinking about the photograph and started thinking about the marsh — the way the water shimmered in the afternoon light, the way the fiddler crabs scattered from her shadow, the way the air smelled of salt and green growing things.","When she looked up, the heron was still there. And slowly, without taking her eyes away, she raised the camera.","The shutter clicked.","The heron turned its golden eye toward her — just once — and then returned its gaze to the still water, as if she were nothing more than another part of the marsh.","Maya smiled. She thought she understood, finally, what her grandmother had always tried to tell her: that some things only come to you when you stop chasing them."]},
+{id:"p2",label:"Selection 2",tag:"Informational",title:"Salt Marshes: Ecosystems at the Edge",
+text:["Salt marshes are coastal wetlands found where freshwater rivers meet the salty ocean. They are among the most productive ecosystems on Earth, supporting a vast web of life from tiny bacteria to large birds and fish.","The most common plant in a North American salt marsh is cordgrass, also called spartina. This tough grass can tolerate flooding by salty tidal water — a condition that would kill most plants. Its deep roots hold the mud in place and prevent erosion. When cordgrass dies, it breaks down into tiny particles called detritus, which feeds countless small organisms.","Salt marshes also act as natural filters. As water flows through the dense root systems, pollutants and excess nutrients are trapped and removed from the water. This filtering process helps keep coastal bays and estuaries clean.","Additionally, salt marshes provide critical protection for coastlines. The thick vegetation and soft sediments absorb wave energy and reduce flooding during storms. Scientists estimate that one acre of salt marsh can absorb up to one million gallons of floodwater.","Despite their importance, more than half of the world's salt marshes have been lost to development and pollution. Conservation groups now work to restore these vital habitats, recognizing that protecting salt marshes means protecting entire coastal communities."]},
+{id:"p3",label:"Selection 3",tag:"Poetry",title:"First Day in a New School",poem:true,
+text:["The hallways roar like ocean waves,","a thousand voices, none my own.","I grip my schedule, crumpled map","of rooms I've never seen or known.","","In science class a boy named Drew","slides over half his worksheet page.","\"You missed the intro,\" whispers he,","\"I'll catch you up.\" I turn the page.","","The lunch line snakes around the gym.","I choose a table near the wall,","and then — a girl sits down beside me,","says nothing much, but that's not all.","","She passes me the ketchup first.","That small thing opens like a door.","By Friday I know seven names.","By Monday I am learning more."]},
+{id:"p4",label:"Selection 4",tag:"Informational",title:"How the Brain Processes New Experiences",
+text:["Every time you encounter something new — a different school, an unfamiliar city, or a new language — your brain works hard to make sense of it. This process involves several key structures, most importantly the hippocampus and the prefrontal cortex.","The hippocampus acts as the brain's filing system. It takes in new information and connects it to things you already know, creating memories that can be retrieved later. When you walk into a new classroom for the first time, your hippocampus rapidly maps the space and links it to similar rooms you have experienced before.","The prefrontal cortex, located at the front of the brain, handles decision-making and emotional regulation. It helps you control anxiety, plan your next steps, and figure out what to focus on. In unfamiliar situations, the prefrontal cortex works overtime — which is why new experiences can feel mentally exhausting.","Interestingly, research shows that novelty also triggers the brain's reward system. When we successfully navigate a new situation, the brain releases dopamine — a chemical associated with pleasure and motivation. This reward response encourages us to keep exploring and learning.","Over time, repeated exposure to new experiences strengthens neural pathways. Scientists call this neuroplasticity: the brain's ability to physically change and reorganize itself in response to learning. Students who regularly challenge themselves with new skills or environments literally build more connections in their brains."]},
+{id:"p5",label:"Selection 5",tag:"Personal Narrative",title:"The Map on My Grandmother's Wall",
+text:["My grandmother had a map of the world pinned to the wall above her kitchen table. It was yellowed and soft at the corners from years of being touched. Little red dots marked the places she had lived: Lagos, London, São Paulo, Houston.","\"Why so many places?\" I asked her once, when I was about eight.","She smoothed the edge of the map with her thumb. \"Because staying still is easy,\" she said, \"and easy isn't always what you need.\"","I didn't understand her then. I was eight and our apartment was the only world I knew. The corners of my room, the smell of the stairwell, the specific creak of the third step — these things were as fixed and permanent to me as mountains.","But the summer I turned twelve, my father's job moved us from Houston to a small town in Oregon I'd never heard of. I cried in the airport. I cried on the plane. I cried when I saw the house, which was smaller than our apartment and had a yard I didn't know what to do with.","Then, slowly, things shifted. I learned the name of the creek behind the school. I found a bookstore that smelled like old paper and stayed open late. I made a friend named Priya who taught me to identify birds by their songs.","Last summer, my grandmother visited. I took her to the creek, to the bookstore, to the hiking trail that winds up past the water tower. When we got home, she went to the map and pressed a new red dot over Oregon.","\"There,\" she said, and smiled. \"Now you have your first one.\""]}
+];
+
+const questions=[
+{pid:"p1",num:1,t:"In paragraph 4, what does it mean when Maya thinks the heron 'knew' she was trying to photograph it?",c:["A. She believes the heron was trained to avoid cameras.","B. She feels the heron is somehow aware of her intentions.","C. She thinks the heron is blind and cannot see her.","D. She believes the marsh has magical powers."],a:1,e:"Maya's word choice shows she feels the heron is deliberately evading her each time she raises her camera."},
+{pid:"p1",num:2,t:"Which statement best describes the theme of this story?",c:["A. Technology helps people connect with nature.","B. Wild animals should be left alone by humans.","C. Patience and releasing control can lead to success.","D. Coastal wetlands need stronger environmental protection."],a:2,e:"Maya only succeeds when she stops fixating on the photo and simply becomes part of the marsh."},
+{pid:"p1",num:3,t:"Read this sentence: 'Its long neck curved like a question mark.' What literary device is used?",c:["A. Alliteration","B. Hyperbole","C. Personification","D. Simile"],a:3,e:"The comparison uses 'like' to link the heron's neck to a question mark — that is a simile."},
+{pid:"p1",num:4,t:"How does Maya's approach change from the beginning to the end of the story?",c:["A. She gives up photography and decides to paint instead.","B. She shifts from active pursuit to calm, patient presence.","C. She asks her grandmother to help distract the heron.","D. She realizes the heron is not interesting enough to photograph."],a:1,e:"Maya moves from actively chasing the shot to slowing down and becoming present in her environment."},
+{pid:"p1",num:5,t:"What role does the grandmother play in this story?",c:["A. She warns Maya about dangers in the marsh.","B. She represents wisdom Maya is still learning to understand.","C. She teaches Maya how to use a camera.","D. She catches the heron for Maya to photograph."],a:1,e:"The grandmother's earlier advice frames the lesson Maya finally learns at the end."},
+{pid:"p1",num:6,t:"Which words from paragraph 5 appeal most to the sense of smell?",c:["A. 'enormous gray wings'","B. 'shimmered in the afternoon light'","C. 'smelled of salt and green growing things'","D. 'scattered from her shadow'"],a:2,e:"'Smelled of salt and green growing things' is a direct sensory detail relating to smell."},
+{pid:"p1",num:7,t:"What does 'as if she were nothing more than another part of the marsh' reveal about the ending?",c:["A. Maya has been rejected by the natural world.","B. Maya has blended into the environment so fully that the heron accepts her.","C. The heron is pretending not to notice Maya.","D. Maya is lost and cannot find her way back to the dock."],a:1,e:"The heron treating Maya like part of the landscape shows she has finally achieved the stillness needed to be accepted."},
+{pid:"p1",num:8,t:"Which word best describes Maya's mood in paragraphs 1–4?",c:["A. Fearful","B. Frustrated and determined","C. Joyful and relaxed","D. Bored and distracted"],a:1,e:"Maya has tried for three summers and keeps failing — she is determined but also carrying that frustration."},
+{pid:"p1",num:9,t:"'The mud beneath her boots made that familiar sucking sound.' This detail mainly serves to —",c:["A. show that the marsh is dangerous","B. create a vivid sense of setting through sound","C. foreshadow the rising tide","D. explain why Maya's grandmother is worried"],a:1,e:"The sound detail makes the setting feel real and lived-in for the reader."},
+{pid:"p1",num:10,t:"If you were writing a one-sentence summary of this story's plot, which would be most important to include?",c:["A. Maya's grandmother calls out a warning about the tide.","B. After years of failing, Maya finally photographs the heron by changing her mindset.","C. The marsh has cordgrass, fiddler crabs, and a wooden dock.","D. The heron has golden eyes and enormous gray wings."],a:1,e:"The central plot event is Maya finally succeeding by changing her approach — that is the story's core action."},
+{pid:"p2",num:11,t:"According to the article, what is the main reason scientists value salt marshes for coastline protection?",c:["A. They attract rare birds that bring tourism.","B. They produce the cordgrass used in construction.","C. Their vegetation and sediment absorb wave energy and reduce flooding.","D. They prevent freshwater rivers from reaching the ocean."],a:2,e:"The article states the thick vegetation and soft sediments absorb wave energy and reduce storm flooding."},
+{pid:"p2",num:12,t:"What is the main purpose of paragraph 3 in the article?",c:["A. To explain how detritus forms in salt marshes","B. To describe how cordgrass spreads along coastlines","C. To explain how salt marshes help keep coastal water clean","D. To argue that pollution is the biggest threat to salt marshes"],a:2,e:"Paragraph 3 focuses on how salt marshes filter pollutants and nutrients from water."},
+{pid:"p2",num:13,t:"Which text structure is primarily used in this article?",c:["A. Problem and solution","B. Cause and effect only","C. Chronological order","D. Description of multiple functions and features"],a:3,e:"The article describes several different features and functions of salt marshes, organized by topic rather than time or problem/solution."},
+{pid:"p2",num:14,t:"What does the word 'detritus' mean as used in paragraph 2?",c:["A. A type of algae that grows in salt water","B. Dead plant matter broken into tiny particles","C. The root system of cordgrass","D. A chemical compound found in ocean water"],a:1,e:"The sentence explains that when cordgrass dies, it breaks down into tiny particles called detritus."},
+{pid:"p2",num:15,t:"The author ends the article by mentioning conservation groups. What is the most likely reason?",c:["A. To argue that all development near coastlines should stop","B. To provide a hopeful note and show that action is being taken","C. To explain how salt marshes are created artificially","D. To shift the topic from science to economics"],a:1,e:"After explaining how much salt marsh has been lost, the author ends with conservation efforts to leave readers with hope."},
+{pid:"p2",num:16,t:"According to the article, how does cordgrass support other organisms in the marsh?",c:["A. By providing shelter for large fish","B. By releasing oxygen directly into the ocean water","C. By breaking down into detritus that feeds small organisms","D. By attracting insects that birds then eat"],a:2,e:"The article explains that dead cordgrass breaks into detritus, which feeds countless small organisms."},
+{pid:"p2",num:17,t:"Which statement is best supported by evidence in the article?",c:["A. Salt marshes are less important than coral reefs.","B. Development near coastlines is always harmful.","C. Salt marshes provide several different benefits to coastal areas.","D. All salt marshes will eventually disappear."],a:2,e:"The article details filtration, flood protection, and habitat support — all evidence of multiple benefits."},
+{pid:"p2",num:18,t:"What does the statistic 'one acre of salt marsh can absorb up to one million gallons of floodwater' most likely help the reader understand?",c:["A. How scientists measure salt marshes","B. The impressive scale of flood protection salt marshes provide","C. Why salt marshes need to be watered during droughts","D. How many acres of salt marsh exist along coastlines"],a:1,e:"The large number makes the flood protection function feel concrete and impressive, reinforcing the author's point."},
+{pid:"p2",num:19,t:"Both selections 1 and 2 mention cordgrass. How does each author use it differently?",c:["A. The story uses cordgrass scientifically; the article uses it as a metaphor.","B. The story uses cordgrass as part of the setting; the article explains its ecological role.","C. Both texts explain cordgrass's biological function in the same way.","D. The story explains how cordgrass grows; the article describes its appearance."],a:1,e:"In the story, cordgrass is part of Maya's vivid setting. In the article, it is explained as a key plant species."},
+{pid:"p2",num:20,t:"The word 'vital' in the last paragraph most nearly means —",c:["A. large","B. ancient","C. essential and critically important","D. well-known"],a:2,e:"'Vital' in context means critically important — the author uses it to stress how essential salt marshes are."},
+{pid:"p3",num:21,t:"What is the speaker of the poem most likely experiencing?",c:["A. A field trip to the ocean","B. The first day at a new school","C. Moving to a different country","D. A school science fair"],a:1,e:"The poem is titled 'First Day in a New School' and describes unfamiliar hallways, a schedule, and meeting new people."},
+{pid:"p3",num:22,t:"In stanza 1, the line 'The hallways roar like ocean waves' is an example of —",c:["A. Personification","B. Alliteration","C. Simile","D. Onomatopoeia"],a:2,e:"The hallways are compared to ocean waves using 'like,' making this a simile."},
+{pid:"p3",num:23,t:"What does 'a thousand voices, none my own' suggest about the speaker's feelings?",c:["A. The school is too noisy for learning.","B. The speaker feels isolated and out of place.","C. The speaker is angry at the other students.","D. The speaker has forgotten how to speak."],a:1,e:"Not having a voice 'of their own' shows the speaker feels like an outsider with no place in the community yet."},
+{pid:"p3",num:24,t:"In stanza 2, what does Drew's action reveal about his character?",c:["A. He is showing off his own work.","B. He is kind and willing to help someone new.","C. He dislikes sharing his worksheets.","D. He is trying to cheat on the assignment."],a:1,e:"Drew slides over his worksheet and offers to catch the speaker up — a small but meaningful act of kindness."},
+{pid:"p3",num:25,t:"What does 'That small thing opens like a door' mean in stanza 4?",c:["A. The girl literally opened a door for the speaker.","B. A small act of kindness created an opportunity for connection.","C. The ketchup bottle was difficult to open.","D. The cafeteria door was broken."],a:1,e:"The line is a metaphor — the girl's simple gesture opened the way for friendship and belonging."},
+{pid:"p3",num:26,t:"How does the speaker's experience change from the beginning to the end of the poem?",c:["A. From excitement to disappointment","B. From isolation and anxiety to growing connection","C. From anger to forgiveness","D. From confidence to self-doubt"],a:1,e:"The speaker begins feeling lost and alone, then gradually gains names, connections, and a sense of belonging."},
+{pid:"p3",num:27,t:"The lines 'By Friday I know seven names. / By Monday I am learning more.' suggest —",c:["A. the speaker is very forgetful","B. adjustment to a new environment happens slowly but steadily","C. the speaker only made seven friends total","D. Monday is a more important school day than Friday"],a:1,e:"The progression from Friday to Monday shows that belonging builds over time, one small step at a time."},
+{pid:"p3",num:28,t:"What is the poem's overall tone?",c:["A. Angry and resentful","B. Hopeful and quietly optimistic","C. Mournful and sad","D. Humorous and playful"],a:1,e:"Despite the anxiety at the beginning, the poem ends with growing connections and forward movement — quiet optimism."},
+{pid:"p3",num:29,t:"The 'crumpled map' in stanza 1 most likely represents —",c:["A. A treasure map the speaker found","B. The speaker's class schedule for the day","C. A literal map on the classroom wall","D. The speaker's homework assignment"],a:1,e:"The poem says 'I grip my schedule, crumpled map / of rooms I've never seen or known' — the schedule is the crumpled map."},
+{pid:"p3",num:30,t:"Which literary element is most central to this poem's meaning?",c:["A. Rhyme scheme","B. Extended metaphor comparing school to an unknown place","C. The use of dialogue between characters","D. Historical references"],a:1,e:"The opening comparison and the crumpled map establish a running metaphor of feeling lost that shapes the whole poem."},
+{pid:"p4",num:31,t:"What is the main idea of this article?",c:["A. New experiences are always stressful for young people.","B. The brain has specific structures that help people process and adjust to new experiences.","C. Students should avoid too many new experiences to protect their brains.","D. The prefrontal cortex controls all human emotions."],a:1,e:"The article explains how the hippocampus, prefrontal cortex, and reward system all work together when we encounter new situations."},
+{pid:"p4",num:32,t:"According to the article, what does the hippocampus do?",c:["A. It releases dopamine when we succeed.","B. It takes in new information and connects it to existing memories.","C. It controls our decision-making and planning.","D. It regulates breathing and heart rate."],a:1,e:"The article describes the hippocampus as the brain's 'filing system' that connects new information to things already known."},
+{pid:"p4",num:33,t:"In paragraph 3, why does the author say new experiences can feel 'mentally exhausting'?",c:["A. Because the body uses extra calories during new activities","B. Because the prefrontal cortex is working extra hard to manage the situation","C. Because the hippocampus shuts down in unfamiliar places","D. Because dopamine levels drop in new environments"],a:1,e:"The article explains the prefrontal cortex 'works overtime' in unfamiliar situations, which is why they feel draining."},
+{pid:"p4",num:34,t:"What is neuroplasticity, as described in the article?",c:["A. The brain's ability to release dopamine","B. A disorder that affects memory formation","C. The brain's ability to physically reorganize itself through learning","D. The process by which the hippocampus stores long-term memories"],a:2,e:"The article defines neuroplasticity as the brain's ability to 'physically change and reorganize itself in response to learning.'"},
+{pid:"p4",num:35,t:"What is the most likely reason the author mentions dopamine in paragraph 4?",c:["A. To warn readers about the dangers of too much dopamine","B. To explain why the brain wants to keep exploring and learning","C. To argue that all learning should be fun and rewarding","D. To prove that the hippocampus controls dopamine"],a:1,e:"The author mentions dopamine as the reward the brain releases when we navigate new situations — which motivates continued exploration."},
+{pid:"p4",num:36,t:"How is this article organized?",c:["A. Chronological order from birth to adulthood","B. Problem and solution — the problem of new experiences and how to solve them","C. Description of multiple brain structures and how each functions","D. Compare and contrast between children's and adults' brains"],a:2,e:"The article moves through different brain parts and describes what each one does."},
+{pid:"p4",num:37,t:"Which sentence from the article uses a metaphor to explain a scientific concept?",c:["A. 'The hippocampus acts as the brain's filing system.'","B. 'The prefrontal cortex is located at the front of the brain.'","C. 'Scientists call this neuroplasticity.'","D. 'This reward response encourages us to keep exploring.'"],a:0,e:"Calling the hippocampus a 'filing system' is a metaphor that helps readers picture how it stores and organizes information."},
+{pid:"p4",num:38,t:"The poem in Selection 3 and the article in Selection 4 both deal with —",c:["A. the role of technology in education","B. the experience of adjusting to something new","C. the importance of making friends","D. scientific research on memory loss"],a:1,e:"The poem shows the emotional experience of a new school; the article explains the brain science behind processing new experiences."},
+{pid:"p4",num:39,t:"Based on the article, what would most likely happen in a student's brain after attending a new school for several months?",c:["A. The hippocampus would shrink from overuse.","B. The student would stop releasing dopamine.","C. Neural pathways would strengthen from repeated exposure.","D. The prefrontal cortex would stop regulating emotions."],a:2,e:"The article explains that repeated exposure strengthens neural pathways through neuroplasticity."},
+{pid:"p4",num:40,t:"What does the word 'novelty' mean in paragraph 4?",c:["A. A small decorative object","B. A type of reward","C. The quality of being new or unfamiliar","D. A chemical in the brain"],a:2,e:"In context, 'novelty' refers to encountering something new — the sentence says novelty triggers the brain's reward system."},
+{pid:"p5",num:41,t:"What is the narrator's grandmother's main message in paragraph 3?",c:["A. Traveling is dangerous and should be avoided.","B. Change and difficulty are sometimes necessary for growth.","C. Houston is a better city than anywhere else.","D. Maps are the best way to remember the past."],a:1,e:"The grandmother says 'staying still is easy, and easy isn't always what you need' — suggesting challenge is important."},
+{pid:"p5",num:42,t:"How does the narrator's attitude toward moving change throughout the essay?",c:["A. She is happy about the move from the beginning.","B. She moves from grief and resistance to acceptance and belonging.","C. She never fully accepts the new town.","D. She is angry at her grandmother for encouraging the move."],a:1,e:"The narrator cries at the airport and on the plane but gradually discovers new things to love and eventually shows her grandmother around."},
+{pid:"p5",num:43,t:"The red dots on the grandmother's map most likely symbolize —",c:["A. Places the grandmother wants to visit someday","B. Locations of family members","C. Places that shaped who the grandmother became","D. Cities with the best food"],a:2,e:"The map tracks everywhere the grandmother has lived — each dot represents a place that was part of her life journey."},
+{pid:"p5",num:44,t:"What is the effect of the detail about 'the specific creak of the third step' in paragraph 4?",c:["A. It foreshadows that the apartment will be sold.","B. It shows how deeply attached the narrator was to her old home's small details.","C. It suggests the building was poorly maintained.","D. It provides a clue about the narrator's age."],a:1,e:"Noticing such a tiny detail shows how intimate and fixed the narrator's sense of home was before the move."},
+{pid:"p5",num:45,t:"Which sentence best states the central idea of this personal narrative?",c:["A. Moving to a new place is always painful and should be avoided when possible.","B. Grandmothers give the best advice about life decisions.","C. Leaving home is difficult, but new places can become part of who you are.","D. Oregon is a better place to live than Houston."],a:2,e:"The narrator's journey from crying at the move to proudly showing her grandmother around captures the essay's core message."},
+{pid:"p5",num:46,t:"In paragraph 6, the narrator lists discovering the creek, the bookstore, and a friend. What is the most likely reason the author includes these specific details?",c:["A. To show that Oregon has better nature than Houston","B. To demonstrate that the narrator found meaningful connections in her new home","C. To prove that small towns are better than big cities","D. To explain why the narrator stopped missing Houston"],a:1,e:"Each discovery represents a new connection — to nature, to books, to people — that made the new place feel like home."},
+{pid:"p5",num:47,t:"The grandmother pressing a new red dot over Oregon at the end of the essay is most significant because —",c:["A. she is adding Oregon to her list of places she wants to move","B. it marks Oregon as dangerous","C. it symbolizes that the narrator has now started her own life journey of growth through change","D. it shows the grandmother owns property in Oregon"],a:2,e:"The grandmother's action mirrors the essay's theme — the narrator is now someone shaped by the places she has lived, just like her grandmother."},
+{pid:"p5",num:48,t:"The narrator says she 'cried in the airport. I cried on the plane. I cried when I saw the house.' What effect does this repetition create?",c:["A. It shows the narrator is immature.","B. It emphasizes the depth of the narrator's grief and resistance to the change.","C. It creates a humorous tone.","D. It suggests the narrator had a physical illness."],a:1,e:"Repeating 'I cried' three times intensifies the emotional weight of the narrator's resistance to leaving home."},
+{pid:"p5",num:49,t:"Selections 3, 4, and 5 all relate to adjusting to new situations. Which best describes how the three texts approach this theme differently?",c:["A. The poem uses first-person; the article uses second-person; the essay uses third-person.","B. The poem shows the emotional experience; the article explains the science; the essay tells a personal story of long-term adjustment.","C. All three texts tell personal stories about moving to new schools.","D. The article and essay share the same theme, but the poem is about something different."],a:1,e:"The poem captures feelings through imagery, the article explains brain science, and the essay follows a narrator's growth over time."},
+{pid:"p5",num:50,t:"Which statement is best supported across ALL five selections in this test?",c:["A. The natural world is the best teacher of life lessons.","B. Science can explain most human emotions completely.","C. New and unfamiliar experiences can lead to growth, connection, and deeper understanding.","D. Change is always painful and takes many years to accept."],a:2,e:"All five selections show, in different ways, that engaging with the unfamiliar leads to growth."}
+];
+
+const ua={};
+
+function renderTest(){
+  let html="";
+  passages.forEach(p=>{
+    const qs=questions.filter(q=>q.pid===p.id);
+    let ph=`<div class="passage-box"><span class="p-tag">${p.label} — ${p.tag}</span><div class="p-title">${p.title}</div><div class="p-text">`;
+    if(p.poem){
+      p.text.forEach((ln,i)=>{
+        if(ln===""){ph+=`<span class="poem-line">&nbsp;</span>`;}
+        else{ph+=`<span class="poem-line"><span class="lnum">${i+1}</span>${ln}</span>`;}
+      });
+    } else {
+      p.text.forEach((para,i)=>{ph+=`<p><span class="lnum">${i+1}</span>${para}</p>`;});
+    }
+    ph+=`</div></div>`;
+    let qh=`<div class="q-col"><div class="sec-label">Questions ${qs[0].num}–${qs[qs.length-1].num}</div>`;
+    qs.forEach(q=>{
+      qh+=`<div class="q-block" id="qb-${q.num}"><div class="q-num">Question ${q.num}</div><div class="q-text">${q.t}</div>`;
+      q.c.forEach((ch,ci)=>{
+        qh+=`<label class="choice" id="lbl-${q.num}-${ci}"><input type="radio" name="q${q.num}" value="${ci}" onchange="pick(${q.num},${ci})"> ${ch}</label>`;
+      });
+      qh+=`<div class="feedback" id="fb-${q.num}"></div></div>`;
+    });
+    qh+=`</div>`;
+    html+=`<div class="section"><div class="sec-label">${p.label}: ${p.title}</div><div class="two-col">${ph}${qh}</div></div>`;
+  });
+  document.getElementById("test-body").innerHTML=html;
+}
+
+function pick(n,v){
+  ua[n]=v;
+  const done=Object.keys(ua).length;
+  document.getElementById("prog").style.width=Math.round(done/50*100)+"%";
+  document.getElementById("s-ans").textContent=done;
+  document.getElementById("s-left").textContent=50-done;
+}
+
+function submitTest(){
+  const missing=questions.filter(q=>ua[q.num]===undefined);
+  if(missing.length>0){alert("Please answer all "+missing.length+" remaining question(s) before submitting.");return;}
+  let correct=0;
+  questions.forEach(q=>{
+    const chosen=ua[q.num];
+    const blk=document.getElementById("qb-"+q.num);
+    const fb=document.getElementById("fb-"+q.num);
+    q.c.forEach((_,ci)=>{
+      const l=document.getElementById("lbl-"+q.num+"-"+ci);
+      l.style.pointerEvents="none";
+      l.classList.remove("sel-correct","sel-wrong","show-correct");
+    });
+    if(chosen===q.a){
+      correct++;
+      blk.classList.add("correct");
+      document.getElementById("lbl-"+q.num+"-"+chosen).classList.add("sel-correct");
+      fb.className="feedback ok";
+      fb.textContent="Correct — "+q.e;
+    } else {
+      blk.classList.add("incorrect");
+      document.getElementById("lbl-"+q.num+"-"+chosen).classList.add("sel-wrong");
+      document.getElementById("lbl-"+q.num+"-"+q.a).classList.add("show-correct");
+      fb.className="feedback bad";
+      fb.textContent="Incorrect. The best answer is "+q.c[q.a]+". "+q.e;
+    }
+    fb.style.display="block";
+  });
+  document.getElementById("subBtn").style.display="none";
+  document.getElementById("prog").style.width="100%";
+  document.getElementById("s-ans").textContent="50";
+  document.getElementById("s-left").textContent="0";
+  const pct=Math.round(correct/50*100);
+  let msg="";
+  if(pct>=80)msg="Excellent work! You are well prepared for the real STAAR.";
+  else if(pct>=70)msg="Good job! Review the questions you missed and keep practicing.";
+  else msg="Keep going — review the explanations above and try again soon!";
+  document.getElementById("score-area").innerHTML=`<div class="score-banner ${pct>=70?'pass':'fail'}"><div>Score: ${correct} / 50 &nbsp;&mdash;&nbsp; ${pct}%</div><p>${msg}</p></div>`;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+renderTest();
+</script>
+</body>
+</html>

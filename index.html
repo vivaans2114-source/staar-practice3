@@ -3,99 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6th Grade Practice STAAR Test</title>
+    <title>6th Grade Practice Test with Explanations</title>
     <style>
-        body { font-family: sans-serif; line-height: 1.6; background: #f4f4f9; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-        .question-block { margin-bottom: 25px; padding: 15px; border-bottom: 1px solid #eee; }
-        .question-text { font-weight: bold; margin-bottom: 10px; display: block; }
-        .options label { display: block; margin: 5px 0; cursor: pointer; padding: 5px; border-radius: 4px; }
-        .options label:hover { background: #eef7ff; }
-        button { display: block; width: 100%; padding: 15px; background: #3498db; color: white; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; margin-top: 20px; }
-        button:hover { background: #2980b9; }
-        #results { margin-top: 20px; padding: 20px; border-radius: 5px; display: none; text-align: center; font-size: 20px; font-weight: bold; }
-        .correct { color: #27ae60; }
-        .incorrect { color: #e74c3c; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: #f0f2f5; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { color: #1a73e8; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        .question-block { margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; transition: 0.3s; }
+        .question-text { font-weight: 600; font-size: 1.1em; display: block; margin-bottom: 15px; }
+        .options label { display: block; margin: 8px 0; cursor: pointer; padding: 10px; border-radius: 6px; border: 1px solid #eee; background: #fafafa; }
+        .options label:hover { background: #f1f3f4; }
+        
+        /* Explanation Box - Hidden by default */
+        .explanation { display: none; margin-top: 15px; padding: 15px; border-radius: 6px; font-size: 0.95em; line-height: 1.4; }
+        .correct-bg { background-color: #e6ffed; border: 1px solid #28a745; color: #155724; }
+        .incorrect-bg { background-color: #fff5f5; border: 1px solid #dc3545; color: #721c24; }
+        
+        button { display: block; width: 100%; padding: 18px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-size: 20px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        button:hover { background: #1557b0; }
+        #results-summary { display: none; text-align: center; padding: 30px; background: #1a73e8; color: white; border-radius: 8px; margin-bottom: 30px; }
+        .score-circle { font-size: 48px; font-weight: 800; display: block; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>6th Grade Practice Assessment</h1>
-    <p style="text-align: center;">50 Questions: Math, Science, and ELA</p>
-    <hr>
+    <div id="results-summary">
+        <span class="score-circle" id="score-text">0/50</span>
+        <p id="feedback-text">Keep practicing!</p>
+    </div>
+
+    <h1>6th Grade Practice Test</h1>
+    <p class="subtitle">Complete the 50 questions below. Explanations will appear after submission.</p>
+    
     <form id="quizForm">
         <div id="quiz-content"></div>
-        <button type="button" onclick="calculateScore()">Submit Test</button>
+        <button type="button" id="submitBtn" onclick="gradeTest()">Submit & Show Explanations</button>
     </form>
-    <div id="results"></div>
 </div>
 
 <script>
-const questions = [
+const quizData = [
     // MATH
-    { q: "What is the absolute value of -15?", a: ["-15", "0", "15", "1"], c: 2 },
-    { q: "Solve: 3/4 ÷ 1/2", a: ["3/8", "1 1/2", "3/2", "2/3"], c: 1 },
-    { q: "What is 20% of 80?", a: ["16", "20", "40", "8"], c: 0 },
-    { q: "Solve for x: x + 12 = 30", a: ["42", "18", "15", "20"], c: 1 },
-    { q: "Which integer represents a sea level of 50 feet below surface?", a: ["50", "0", "-50", "5"], c: 2 },
-    { q: "What is the area of a triangle with base 10 and height 5?", a: ["50", "25", "15", "100"], c: 1 },
-    { q: "What is the prime factorization of 12?", a: ["2x6", "3x4", "2x2x3", "2x3x3"], c: 2 },
-    { q: "Express 0.75 as a fraction in simplest form.", a: ["75/100", "3/4", "1/2", "3/5"], c: 1 },
-    { q: "Find the median: 2, 5, 8, 11, 14", a: ["8", "5", "11", "40"], c: 0 },
-    { q: "What is 5 cubed (5³)?", a: ["15", "25", "125", "50"], c: 2 },
-    { q: "How many centimeters are in 2 meters?", a: ["20", "200", "2000", "0.2"], c: 1 },
-    { q: "Simplify: 4(x + 3)", a: ["4x + 3", "x + 12", "4x + 12", "7x"], c: 2 },
-    { q: "What is the ratio of 3 apples to 12 oranges in simplest form?", a: ["3:12", "1:4", "4:1", "1:3"], c: 1 },
-    { q: "What is the value of pi (approximate)?", a: ["2.14", "3.14", "3.41", "4.13"], c: 1 },
-    { q: "Which is greater: 0.5 or 0.05?", a: ["0.5", "0.05", "They are equal", "Neither"], c: 0 },
-    { q: "A car travels 150 miles in 3 hours. What is the unit rate?", a: ["450 mph", "50 mph", "30 mph", "60 mph"], c: 1 },
-    { q: "The sum of the angles in a triangle is:", a: ["90°", "180°", "360°", "270°"], c: 1 },
-    { q: "What is -4 + 9?", a: ["-5", "13", "5", "-13"], c: 2 },
-    { q: "Which coordinate is in the second quadrant?", a: ["(1,1)", "(-1,1)", "(-1,-1)", "(1,-1)"], c: 1 },
-    { q: "Convert 1/8 to a decimal.", a: ["0.125", "0.8", "0.18", "0.25"], c: 0 },
+    { q: "What is the absolute value of -15?", a: ["-15", "0", "15", "1"], c: 2, e: "Absolute value is the distance from zero. Since -15 is 15 units away from zero, the answer is 15." },
+    { q: "Solve: 3/4 ÷ 1/2", a: ["3/8", "1 1/2", "3/2", "2/3"], c: 1, e: "To divide fractions, multiply the first fraction by the reciprocal of the second (3/4 * 2/1 = 6/4), which simplifies to 1 1/2." },
+    { q: "What is 20% of 80?", a: ["16", "20", "40", "8"], c: 0, e: "Multiply 80 by 0.20 (80 * 0.2 = 16)." },
+    { q: "Solve for x: x + 12 = 30", a: ["42", "18", "15", "20"], c: 1, e: "Subtract 12 from both sides (30 - 12 = 18)." },
+    { q: "Which integer represents a sea level of 50 feet below surface?", a: ["50", "0", "-50", "5"], c: 2, e: "'Below surface' indicates a negative value, so -50 is correct." },
+    { q: "What is the area of a triangle with base 10 and height 5?", a: ["50", "25", "15", "100"], c: 1, e: "Formula is (Base * Height) / 2. So (10 * 5) / 2 = 25." },
+    { q: "What is the prime factorization of 12?", a: ["2x6", "3x4", "2x2x3", "2x3x3"], c: 2, e: "Prime factors are numbers that are prime. 2 * 2 * 3 = 12." },
+    { q: "Express 0.75 as a fraction in simplest form.", a: ["75/100", "3/4", "1/2", "3/5"], c: 1, e: "0.75 is 75/100. Divide both by 25 to get 3/4." },
+    { q: "Find the median: 2, 5, 8, 11, 14", a: ["8", "5", "11", "40"], c: 0, e: "The median is the middle number in an ordered list. 8 is in the middle." },
+    { q: "What is 5 cubed (5³)?", a: ["15", "25", "125", "50"], c: 2, e: "5 * 5 * 5 = 125." },
+    { q: "How many centimeters are in 2 meters?", a: ["20", "200", "2000", "0.2"], c: 1, e: "There are 100 cm in 1 meter, so 2 * 100 = 200." },
+    { q: "Simplify: 4(x + 3)", a: ["4x + 3", "x + 12", "4x + 12", "7x"], c: 2, e: "Use the distributive property: 4 * x and 4 * 3 gives 4x + 12." },
+    { q: "What is the ratio of 3 apples to 12 oranges in simplest form?", a: ["3:12", "1:4", "4:1", "1:3"], c: 1, e: "Divide both 3 and 12 by 3 to get 1:4." },
+    { q: "What is the value of pi (approximate)?", a: ["2.14", "3.14", "3.41", "4.13"], c: 1, e: "Pi is approximately 3.14159..." },
+    { q: "Which is greater: 0.5 or 0.05?", a: ["0.5", "0.05", "They are equal", "Neither"], c: 0, e: "0.5 is the same as 0.50, which is larger than 0.05." },
+    { q: "A car travels 150 miles in 3 hours. What is the unit rate?", a: ["450 mph", "50 mph", "30 mph", "60 mph"], c: 1, e: "Divide 150 miles by 3 hours = 50 miles per hour." },
+    { q: "The sum of the angles in a triangle is:", a: ["90°", "180°", "360°", "270°"], c: 1, e: "All triangles have angles that add up to exactly 180 degrees." },
+    { q: "What is -4 + 9?", a: ["-5", "13", "5", "-13"], c: 2, e: "Start at -4 and move 9 steps right on the number line to reach 5." },
+    { q: "Which coordinate is in the second quadrant?", a: ["(1,1)", "(-1,1)", "(-1,-1)", "(1,-1)"], c: 1, e: "The second quadrant has negative x values and positive y values (-x, +y)." },
+    { q: "Convert 1/8 to a decimal.", a: ["0.125", "0.8", "0.18", "0.25"], c: 0, e: "1 divided by 8 is 0.125." },
 
     // SCIENCE
-    { q: "Which layer of the Earth is the hottest?", a: ["Crust", "Mantle", "Outer Core", "Inner Core"], c: 3 },
-    { q: "What type of energy is stored in a battery?", a: ["Kinetic", "Chemical", "Thermal", "Sound"], c: 1 },
-    { q: "Which planet is known as the Red Planet?", a: ["Venus", "Jupiter", "Mars", "Saturn"], c: 2 },
-    { q: "The process of liquid turning into gas is:", a: ["Freezing", "Condensation", "Evaporation", "Melting"], c: 2 },
-    { q: "Which cell part is known as the 'powerhouse'?", a: ["Nucleus", "Cell Wall", "Mitochondria", "Vacuole"], c: 2 },
-    { q: "Which is a renewable resource?", a: ["Coal", "Oil", "Solar Power", "Natural Gas"], c: 2 },
-    { q: "What force pulls objects toward the center of the Earth?", a: ["Magnetism", "Inertia", "Gravity", "Friction"], c: 2 },
-    { q: "Plants produce their own food through:", a: ["Respiration", "Photosynthesis", "Digestion", "Decomposition"], c: 1 },
-    { q: "What is the boiling point of water in Celsius?", a: ["0°C", "50°C", "100°C", "212°C"], c: 2 },
-    { q: "A student pushes a box but it doesn't move. Why?", a: ["No force", "Balanced forces", "Unbalanced forces", "Gravity"], c: 1 },
-    { q: "Which organism is a producer?", a: ["Grass", "Rabbit", "Wolf", "Mushroom"], c: 0 },
-    { q: "An igneous rock forms from:", a: ["Heat and pressure", "Sediments", "Cooling magma", "Layering"], c: 2 },
-    { q: "What tool measures air pressure?", a: ["Thermometer", "Anemometer", "Barometer", "Hygrometer"], c: 2 },
-    { q: "Which is a physical change?", a: ["Burning wood", "Rusting metal", "Ice melting", "Baking a cake"], c: 2 },
-    { q: "The tilt of the Earth causes:", a: ["Day and Night", "Tides", "Seasons", "Gravity"], c: 2 },
+    { q: "Which layer of the Earth is the hottest?", a: ["Crust", "Mantle", "Outer Core", "Inner Core"], c: 3, e: "The inner core is the hottest layer due to extreme pressure and radioactive decay." },
+    { q: "What type of energy is stored in a battery?", a: ["Kinetic", "Chemical", "Thermal", "Sound"], c: 1, e: "Batteries store energy in chemical form until a circuit is completed." },
+    { q: "Which planet is known as the Red Planet?", a: ["Venus", "Jupiter", "Mars", "Saturn"], c: 2, e: "Mars appears red because of iron oxide (rust) on its surface." },
+    { q: "The process of liquid turning into gas is:", a: ["Freezing", "Condensation", "Evaporation", "Melting"], c: 2, e: "Evaporation occurs when liquid molecules gain enough energy to become gas." },
+    { q: "Which cell part is known as the 'powerhouse'?", a: ["Nucleus", "Cell Wall", "Mitochondria", "Vacuole"], c: 2, e: "Mitochondria produce ATP, which is the energy currency of the cell." },
+    { q: "Which is a renewable resource?", a: ["Coal", "Oil", "Solar Power", "Natural Gas"], c: 2, e: "Solar power comes from the sun and does not run out, unlike fossil fuels." },
+    { q: "What force pulls objects toward the center of the Earth?", a: ["Magnetism", "Inertia", "Gravity", "Friction"], c: 2, e: "Gravity is the force of attraction between masses." },
+    { q: "Plants produce their own food through:", a: ["Respiration", "Photosynthesis", "Digestion", "Decomposition"], c: 1, e: "Photosynthesis uses sunlight, water, and CO2 to create glucose." },
+    { q: "What is the boiling point of water in Celsius?", a: ["0°C", "50°C", "100°C", "212°C"], c: 2, e: "Under standard conditions, water boils at 100°C." },
+    { q: "A student pushes a box but it doesn't move. Why?", a: ["No force", "Balanced forces", "Unbalanced forces", "Gravity"], c: 1, e: "If the push is balanced by friction, the net force is zero and the box won't move." },
+    { q: "Which organism is a producer?", a: ["Grass", "Rabbit", "Wolf", "Mushroom"], c: 0, e: "Producers (like grass) make their own food via sunlight." },
+    { q: "An igneous rock forms from:", a: ["Heat and pressure", "Sediments", "Cooling magma", "Layering"], c: 2, e: "Igneous rocks are 'born of fire' from cooled magma or lava." },
+    { q: "What tool measures air pressure?", a: ["Thermometer", "Anemometer", "Barometer", "Hygrometer"], c: 2, e: "A barometer is the specific tool for measuring atmospheric pressure." },
+    { q: "Which is a physical change?", a: ["Burning wood", "Rusting metal", "Ice melting", "Baking a cake"], c: 2, e: "Melting ice is a change of state; the substance remains H2O." },
+    { q: "The tilt of the Earth causes:", a: ["Day and Night", "Tides", "Seasons", "Gravity"], c: 2, e: "The 23.5-degree tilt causes different parts of Earth to receive more direct sunlight at different times." },
 
-    // ELA / VOCABULARY
-    { q: "Which word is a synonym for 'large'?", a: ["Tiny", "Huge", "Smart", "Swift"], c: 1 },
-    { q: "Identify the noun: 'The cat ran fast.'", a: ["Cat", "Ran", "Fast", "The"], c: 0 },
-    { q: "Which is a compound sentence?", a: ["I like pie.", "I like pie and cake.", "I like pie, but he likes cake.", "Eating pie is fun."], c: 2 },
-    { q: "What is a person, place, or thing?", a: ["Verb", "Adjective", "Noun", "Adverb"], c: 2 },
-    { q: "What does the prefix 'un-' mean?", a: ["Again", "Not", "Before", "Very"], c: 1 },
-    { q: "Which word is spelled correctly?", a: ["Recieve", "Receive", "Receve", "Riceive"], c: 1 },
-    { q: "What is the main idea of a story?", a: ["The ending", "The characters", "The central message", "The setting"], c: 2 },
-    { q: "Identify the adjective: 'The blue sky.'", a: ["The", "Blue", "Sky", "Is"], c: 1 },
-    { q: "A 'simile' uses which words to compare?", a: ["And/But", "Like/As", "For/Nor", "To/Be"], c: 1 },
-    { q: "What is the antonym of 'brave'?", a: ["Strong", "Fearful", "Happy", "Kind"], c: 1 },
-    { q: "Which punctuation ends a question?", a: [".", "!", "?", ";"], c: 2 },
-    { q: "Who is the 'protagonist'?", a: ["The villain", "The main character", "The narrator", "The author"], c: 1 },
-    { q: "What does 'biography' mean?", a: ["Self-written life story", "Life story written by another", "Science book", "A map"], c: 1 },
-    { q: "Identify the verb: 'She danced gracefully.'", a: ["She", "Danced", "Gracefully", "The"], c: 1 },
-    { q: "Which is an exclamation?", a: ["I am here.", "Where are you?", "Look out!", "Please sit."], c: 2 }
+    // ELA
+    { q: "Which word is a synonym for 'large'?", a: ["Tiny", "Huge", "Smart", "Swift"], c: 1, e: "Synonyms are words with similar meanings. Huge and Large are similar." },
+    { q: "Identify the noun: 'The cat ran fast.'", a: ["Cat", "Ran", "Fast", "The"], c: 0, e: "A noun is a person, place, or thing. Cat is the animal (thing)." },
+    { q: "Which is a compound sentence?", a: ["I like pie.", "I like pie and cake.", "I like pie, but he likes cake.", "Eating pie is fun."], c: 2, e: "A compound sentence joins two independent clauses with a comma and a conjunction (but)." },
+    { q: "What is a person, place, or thing?", a: ["Verb", "Adjective", "Noun", "Adverb"], c: 2, e: "This is the basic definition of a Noun." },
+    { q: "What does the prefix 'un-' mean?", a: ["Again", "Not", "Before", "Very"], c: 1, e: "The prefix 'un-' means 'not' (e.g., unhappy = not happy)." },
+    { q: "Which word is spelled correctly?", a: ["Recieve", "Receive", "Receve", "Riceive"], c: 1, e: "Remember 'I before E except after C'." },
+    { q: "What is the main idea of a story?", a: ["The ending", "The characters", "The central message", "The setting"], c: 2, e: "The main idea is the big picture or message the author wants to share." },
+    { q: "Identify the adjective: 'The blue sky.'", a: ["The", "Blue", "Sky", "Is"], c: 1, e: "Adjectives describe nouns. 'Blue' describes the 'sky'." },
+    { q: "A 'simile' uses which words to compare?", a: ["And/But", "Like/As", "For/Nor", "To/Be"], c: 1, e: "Similes use 'like' or 'as' to compare two unlike things." },
+    { q: "What is the antonym of 'brave'?", a: ["Strong", "Fearful", "Happy", "Kind"], c: 1, e: "Antonyms are opposites. Fearful is the opposite of brave." },
+    { q: "Which punctuation ends a question?", a: [".", "!", "?", ";"], c: 2, e: "Question marks (?) are used for interrogative sentences." },
+    { q: "Who is the 'protagonist'?", a: ["The villain", "The main character", "The narrator", "The author"], c: 1, e: "The protagonist is the leading character or hero of the story." },
+    { q: "What does 'biography' mean?", a: ["Self-written life story", "Life story written by another", "Science book", "A map"], c: 1, e: "Bio means life, graphy means writing. A biography is written by someone else." },
+    { q: "Identify the verb: 'She danced gracefully.'", a: ["She", "Danced", "Gracefully", "The"], c: 1, e: "Verbs are action words. 'Danced' is the action being performed." },
+    { q: "Which is an exclamation?", a: ["I am here.", "Where are you?", "Look out!", "Please sit."], c: 2, e: "Exclamations show strong emotion and end with an exclamation point (!)." }
 ];
 
 const quizContainer = document.getElementById('quiz-content');
 
-questions.forEach((item, index) => {
+// Generate the questions
+quizData.forEach((item, index) => {
     let qDiv = document.createElement('div');
     qDiv.className = 'question-block';
+    qDiv.id = `block-${index}`;
     qDiv.innerHTML = `
         <span class="question-text">${index + 1}. ${item.q}</span>
         <div class="options">
@@ -105,23 +117,46 @@ questions.forEach((item, index) => {
                 </label>
             `).join('')}
         </div>
+        <div class="explanation" id="exp-${index}">
+            <strong>Explanation:</strong> ${item.e}
+        </div>
     `;
     quizContainer.appendChild(qDiv);
 });
 
-function calculateScore() {
+function gradeTest() {
     let score = 0;
-    questions.forEach((item, index) => {
+    
+    quizData.forEach((item, index) => {
         const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        const expDiv = document.getElementById(`exp-${index}`);
+        const blockDiv = document.getElementById(`block-${index}`);
+        
+        expDiv.style.display = 'block'; // Show the explanation
+        
         if (selected && parseInt(selected.value) === item.c) {
             score++;
+            expDiv.classList.add('correct-bg');
+            expDiv.innerHTML = "✅ <strong>Correct!</strong> " + item.e;
+        } else {
+            expDiv.classList.add('incorrect-bg');
+            expDiv.innerHTML = `❌ <strong>Incorrect.</strong> The correct answer was: "${item.a[item.c]}". <br><br> ${item.e}`;
         }
     });
     
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.style.display = 'block';
-    resultsDiv.innerHTML = `You scored ${score} out of 50 (${(score/50*100).toFixed(0)}%)`;
-    window.scrollTo(0,0);
+    // Update Score Header
+    const summary = document.getElementById('results-summary');
+    const scoreText = document.getElementById('score-text');
+    summary.style.display = 'block';
+    scoreText.innerHTML = `${score} / 50`;
+    
+    // Disable submit button after use
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerText = "Test Evaluated";
+    btn.style.background = "#aaa";
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
 }
 </script>
 
